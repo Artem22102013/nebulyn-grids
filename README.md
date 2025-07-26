@@ -21,7 +21,7 @@ A powerful, modular JavaScript grid engine for creating interactive 16x16 grids 
 ## 📁 Texture Setup
 
 Create a `textures/` folder in your project root and add PNG files named after blocks:
-\`\`\`
+```
 textures/
 ├── stone.png
 ├── dirt.png
@@ -29,12 +29,12 @@ textures/
 ├── gold_block.png
 ├── diamond_block.png
 └── ...
-\`\`\`
+```
 
 ## 🎮 Usage
 
 ### Basic Port Creation
-\`\`\`javascript
+```javascript
 // Create a port with multiple inputs/outputs
 grid.addPort(5, 10, {
   inputArrows: ['top', 'left', 'bottom-left'],
@@ -42,32 +42,32 @@ grid.addPort(5, 10, {
   block: 'iron_block',
   color: 'blue'
 })
-\`\`\`
+```
 
 ### Arrow Positions
 Available positions: `top`, `top-right`, `right`, `bottom-right`, `bottom`, `bottom-left`, `left`, `top-left`
 
 ### Texture Loading
-\`\`\`javascript
+```javascript
 // Set custom texture path
 grid.setTextureBasePath('https://example.com/textures/')
 
 // Or use local folder
 grid.setTextureBasePath('./my-textures/')
-\`\`\`
+```
 
 ## 🔧 API Reference
 
 ### Enhanced Methods
-- \`addInputArrow(x, y, position)\` - Add input arrow to existing port
-- \`addOutputArrow(x, y, position)\` - Add output arrow to existing port
-- \`removeInputArrow(x, y, position)\` - Remove specific input arrow
-- \`removeOutputArrow(x, y, position)\` - Remove specific output arrow
-- \`setTextureBasePath(path)\` - Update texture folder path
-- \`getArrowPositions()\` - Get available arrow positions
+- `addInputArrow(x, y, position)` - Add input arrow to existing port
+- `addOutputArrow(x, y, position)` - Add output arrow to existing port
+- `removeInputArrow(x, y, position)` - Remove specific input arrow
+- `removeOutputArrow(x, y, position)` - Remove specific output arrow
+- `setTextureBasePath(path)` - Update texture folder path
+- `getArrowPositions()` - Get available arrow positions
 
 ### Data Structure (Enhanced)
-\`\`\`json
+```json
 {
   "name": "Nebulyn Grid",
   "version": "2.0.0",
@@ -86,7 +86,7 @@ grid.setTextureBasePath('./my-textures/')
     }
   ]
 }
-\`\`\`
+```
 
 ## 🎨 Features
 
@@ -112,19 +112,19 @@ grid.setTextureBasePath('./my-textures/')
 ## 🌈 Color-Specific Grids
 
 Generate separate grids for each color used:
-\`\`\`javascript
+```javascript
 const colorGrids = dataManager.generateColorGrids(mainData)
 // Creates individual grids for red, blue, green, etc.
-\`\`\`
+```
 
 ## 📊 Statistics
 
 Get detailed port statistics:
-\`\`\`javascript
+```javascript
 const stats = dataManager.getGridStatistics(gridData)
-console.log(\`Total ports: \${stats.totalPorts}\`)
-console.log(\`Most complex port: \${stats.mostComplexPort.coordinate}\`)
-\`\`\`
+console.log(`Total ports: ${stats.totalPorts}`)
+console.log(`Most complex port: ${stats.mostComplexPort.coordinate}`)
+```
 
 ## 🎯 Use Cases
 
