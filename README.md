@@ -1,30 +1,90 @@
-# Custom js grid engine
+# Nebulyn Grid Engine
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+A modular JavaScript grid engine for creating interactive 16x16 grids with port management and Minecraft-style color coding.
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/catmans-projects-8d704d0a/v0-custom-js-grid-engine)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/jrcyCFB5p7D)
+## Features
 
-## Overview
+- 16x16 interactive grid with coordinate tracking (1,1 at bottom-left)
+- Port management with input/output arrows
+- Minecraft block and color selection
+- Data persistence (localStorage + JSON file export/import)
+- Color-specific grid generation
+- Framework-free, pure JavaScript
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+## Quick Start
 
-## Deployment
+1. Clone this repository
+2. Open `index.html` in your browser
+3. Start adding ports and experimenting!
 
-Your project is live at:
+## Usage in Your Project
 
-**[https://vercel.com/catmans-projects-8d704d0a/v0-custom-js-grid-engine](https://vercel.com/catmans-projects-8d704d0a/v0-custom-js-grid-engine)**
+\`\`\`html
+<div id="my-grid"></div>
+<script src="nebulyn-grid-engine.js"></script>
+<script src="nebulyn-data-manager.js"></script>
+<script>
+  // Initialize grid
+  const grid = new NebulynGridEngine('my-grid', {
+    onCoordinateChange: (x, y) => console.log(\`Coordinate: \${x},\${y}\`)
+  })
+  
+  // Add a port
+  grid.addPort(5, 10, {
+    inputArrow: true,
+    outputArrow: false,
+    block: 'stone',
+    color: 'red'
+  })
+</script>
+\`\`\`
 
-## Build your app
+## API Reference
 
-Continue building your app on:
+### NebulynGridEngine
+- \`addPort(x, y, config)\` - Add a port at coordinates
+- \`removePort(x, y)\` - Remove port at coordinates
+- \`getData()\` - Get current grid data
+- \`setData(data)\` - Load grid data
+- \`getPortAt(x, y)\` - Get port at coordinates
+- \`clearAllPorts()\` - Remove all ports
 
-**[https://v0.dev/chat/projects/jrcyCFB5p7D](https://v0.dev/chat/projects/jrcyCFB5p7D)**
+### NebulynDataManager
+- \`saveToLocalStorage(name, data)\` - Save to browser storage
+- \`loadFromLocalStorage(name)\` - Load from browser storage
+- \`exportToFile(data, filename)\` - Export as JSON file
+- \`importFromFile(file)\` - Import from JSON file
+- \`generateColorGrids(mainData)\` - Create color-specific grids
 
-## How It Works
+## Use Cases
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+### Main Display (All Ports)
+Shows all ports with arrows, blocks, and colors
+
+### Color-Only Displays
+Shows only ports of specific colors for individual grid displays
+
+## Data Structure
+
+\`\`\`json
+{
+  "name": "Nebulyn Grid",
+  "version": "1.0.0",
+  "timestamp": "2024-01-15T10:30:00.000Z",
+  "gridSize": 16,
+  "ports": [
+    {
+      "coordinate": "5,10",
+      "inputArrow": true,
+      "outputArrow": false,
+      "block": "stone",
+      "color": "red",
+      "colorHex": "#B02E26"
+    }
+  ]
+}
+\`\`\`
+
+## License
+
+MIT License
