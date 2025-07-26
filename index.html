@@ -3,106 +3,251 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nebulyn Grid Engine</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Nebulyn Grid Engine - Enhanced</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: 'Courier New', monospace;
-            background-color: #2a2a2a;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             color: #ffffff;
             padding: 20px;
-            margin: 0;
+            min-height: 100vh;
         }
+        
         .container {
             display: flex;
-            gap: 20px;
-            max-width: 1200px;
+            gap: 25px;
+            max-width: 1400px;
             margin: 0 auto;
         }
+        
         .controls {
-            width: 300px;
-            background-color: #3a3a3a;
-            padding: 20px;
-            border-radius: 8px;
+            width: 350px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
             height: fit-content;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
+        
         .controls h2, .controls h3 {
             margin-bottom: 15px;
             color: #4caf50;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
+        
         .coordinate-display {
-            background-color: #4a4a4a;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            font-size: 18px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 20px;
             font-weight: bold;
+            text-align: center;
+            border: 1px solid rgba(76, 175, 80, 0.3);
         }
+        
         .control-section {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        
         .control-section button {
             display: block;
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin-bottom: 10px;
-            background-color: #4caf50;
+            background: linear-gradient(45deg, #4caf50, #45a049);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
         }
+        
         .control-section button:hover {
-            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
         }
+        
+        .control-section button:active {
+            transform: translateY(0);
+        }
+        
         .grid-container {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: flex-start;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
+        
         #data-output {
             width: 100%;
-            height: 150px;
-            background-color: #4a4a4a;
-            color: white;
-            border: 1px solid #666;
-            border-radius: 4px;
-            padding: 10px;
+            height: 200px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #4caf50;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 8px;
+            padding: 15px;
             font-family: 'Courier New', monospace;
+            font-size: 12px;
             resize: vertical;
+        }
+        
+        .port-builder {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .arrow-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin: 10px 0;
+        }
+        
+        .arrow-btn {
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .arrow-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .arrow-btn.active {
+            background: #4caf50;
+            border-color: #45a049;
+        }
+        
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 5px;
+            margin: 10px 0;
+        }
+        
+        .color-btn {
+            width: 30px;
+            height: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .color-btn:hover {
+            transform: scale(1.1);
+            border-color: white;
+        }
+        
+        .color-btn.selected {
+            border-color: #ffeb3b;
+            border-width: 3px;
+            transform: scale(1.1);
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: white;
+            margin-bottom: 10px;
+        }
+        
+        select option {
+            background: #2a2a2a;
+            color: white;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="controls">
-            <h2>Nebulyn Grid Engine</h2>
+            <h2>🌌 Nebulyn Grid Engine</h2>
             
             <div class="coordinate-display">
-                <span>Coordinates: </span>
+                <span>📍 Coordinates: </span>
                 <span id="coordinates">1,1</span>
             </div>
             
             <div class="control-section">
-                <h3>Port Management</h3>
-                <button onclick="addExamplePort()">Add Example Port</button>
-                <button onclick="removeSelectedPort()">Remove Selected Port</button>
-                <button onclick="clearAllPorts()">Clear All Ports</button>
+                <h3>🔧 Port Builder</h3>
+                <div class="port-builder">
+                    <label>Block Type:</label>
+                    <select id="block-select">
+                        <option value="stone">Stone</option>
+                        <option value="dirt">Dirt</option>
+                        <option value="cobblestone">Cobblestone</option>
+                        <option value="wood">Wood Planks</option>
+                        <option value="iron_block">Iron Block</option>
+                        <option value="gold_block">Gold Block</option>
+                        <option value="diamond_block">Diamond Block</option>
+                        <option value="emerald_block">Emerald Block</option>
+                        <option value="redstone_block">Redstone Block</option>
+                        <option value="lapis_block">Lapis Block</option>
+                    </select>
+                    
+                    <label>Color:</label>
+                    <div class="color-palette" id="color-palette"></div>
+                    
+                    <label>Input Arrows:</label>
+                    <div class="arrow-grid" id="input-arrows"></div>
+                    
+                    <label>Output Arrows:</label>
+                    <div class="arrow-grid" id="output-arrows"></div>
+                    
+                    <button onclick="addPortToSelected()">➕ Add Port to Selected Cell</button>
+                </div>
             </div>
             
             <div class="control-section">
-                <h3>Data Management</h3>
-                <button onclick="saveToFile()">Export to JSON</button>
-                <button onclick="loadFromFile()">Import from JSON</button>
-                <button onclick="saveToLocal()">Save to Browser</button>
-                <button onclick="loadFromLocal()">Load from Browser</button>
+                <h3>🎮 Port Management</h3>
+                <button onclick="addRandomPort()">🎲 Add Random Port</button>
+                <button onclick="removeSelectedPort()">🗑️ Remove Selected Port</button>
+                <button onclick="clearAllPorts()">🧹 Clear All Ports</button>
+                <button onclick="duplicatePort()">📋 Duplicate Selected Port</button>
             </div>
             
             <div class="control-section">
-                <h3>Color Grids</h3>
-                <button onclick="generateColorGrids()">Generate Color Grids</button>
+                <h3>💾 Data Management</h3>
+                <button onclick="saveToFile()">📤 Export to JSON</button>
+                <button onclick="loadFromFile()">📥 Import from JSON</button>
+                <button onclick="saveToLocal()">💿 Save to Browser</button>
+                <button onclick="loadFromLocal()">📀 Load from Browser</button>
+            </div>
+            
+            <div class="control-section">
+                <h3>🎨 Color Grids</h3>
+                <button onclick="generateColorGrids()">🌈 Generate Color Grids</button>
+                <button onclick="setTexturePath()">🖼️ Set Texture Folder</button>
                 <textarea id="data-output" placeholder="Grid data and logs will appear here..." readonly></textarea>
             </div>
         </div>
@@ -119,59 +264,183 @@
     <script>
         // Initialize the grid engine and data manager
         let grid, dataManager;
+        let selectedColor = 'red';
+        let selectedInputArrows = [];
+        let selectedOutputArrows = [];
         
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize grid with coordinate tracking
             grid = new NebulynGridEngine('main-grid', {
+                cellSize: 45,
+                textureBasePath: './textures/',
                 onCoordinateChange: (x, y) => {
                     document.getElementById('coordinates').textContent = `${x},${y}`;
                 },
                 onPortChange: (action, coord, portData) => {
-                    log(`Port ${action} at ${coord}: ${portData.color} ${portData.block}`);
+                    const inputs = portData.inputArrows.length;
+                    const outputs = portData.outputArrows.length;
+                    log(`🔌 Port ${action} at ${coord}: ${portData.color} ${portData.block} (${inputs}→${outputs})`);
                 }
             });
             
             // Initialize data manager
             dataManager = new NebulynDataManager();
             
+            // Setup UI
+            setupColorPalette();
+            setupArrowGrids();
+            
             // Add some example ports
             grid.addPort(5, 10, {
-                inputArrow: true,
-                outputArrow: false,
+                inputArrows: ['top', 'left'],
+                outputArrows: ['right'],
                 block: 'stone',
                 color: 'red'
             });
             
             grid.addPort(8, 12, {
-                inputArrow: false,
-                outputArrow: true,
-                block: 'iron',
+                inputArrows: ['bottom'],
+                outputArrows: ['top', 'right', 'top-right'],
+                block: 'iron_block',
                 color: 'blue'
             });
             
-            log('Nebulyn Grid Engine initialized!');
+            grid.addPort(3, 7, {
+                inputArrows: ['left', 'bottom-left'],
+                outputArrows: ['right', 'top-right'],
+                block: 'gold_block',
+                color: 'yellow'
+            });
+            
+            log('🌌 Nebulyn Grid Engine Enhanced initialized!');
+            log('✨ Features: Multiple I/O, Textures, Enhanced UI');
         });
+        
+        function setupColorPalette() {
+            const palette = document.getElementById('color-palette');
+            const colors = grid.getMinecraftColors();
+            
+            Object.entries(colors).forEach(([name, hex]) => {
+                const btn = document.createElement('div');
+                btn.className = 'color-btn';
+                btn.style.backgroundColor = hex;
+                btn.title = name;
+                btn.onclick = () => selectColor(name, btn);
+                if (name === 'red') btn.classList.add('selected');
+                palette.appendChild(btn);
+            });
+        }
+        
+        function setupArrowGrids() {
+            const positions = ['top-left', 'top', 'top-right', 'left', '', 'right', 'bottom-left', 'bottom', 'bottom-right'];
+            const inputGrid = document.getElementById('input-arrows');
+            const outputGrid = document.getElementById('output-arrows');
+            
+            positions.forEach(pos => {
+                // Input arrows
+                const inputBtn = document.createElement('div');
+                inputBtn.className = 'arrow-btn';
+                inputBtn.textContent = pos ? '→' : '';
+                inputBtn.title = pos || '';
+                if (pos) {
+                    inputBtn.onclick = () => toggleArrow('input', pos, inputBtn);
+                }
+                inputGrid.appendChild(inputBtn);
+                
+                // Output arrows
+                const outputBtn = document.createElement('div');
+                outputBtn.className = 'arrow-btn';
+                outputBtn.textContent = pos ? '←' : '';
+                outputBtn.title = pos || '';
+                if (pos) {
+                    outputBtn.onclick = () => toggleArrow('output', pos, outputBtn);
+                }
+                outputGrid.appendChild(outputBtn);
+            });
+        }
+        
+        function selectColor(colorName, btn) {
+            document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedColor = colorName;
+        }
+        
+        function toggleArrow(type, position, btn) {
+            const array = type === 'input' ? selectedInputArrows : selectedOutputArrows;
+            const index = array.indexOf(position);
+            
+            if (index > -1) {
+                array.splice(index, 1);
+                btn.classList.remove('active');
+            } else {
+                array.push(position);
+                btn.classList.add('active');
+            }
+        }
         
         // Helper function to log messages
         function log(message) {
             const output = document.getElementById('data-output');
-            output.value += new Date().toLocaleTimeString() + ': ' + message + '\n';
+            const timestamp = new Date().toLocaleTimeString();
+            output.value += `[${timestamp}] ${message}\n`;
             output.scrollTop = output.scrollHeight;
         }
         
-        // Control functions
-        function addExamplePort() {
-            const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
-            const blocks = ['stone', 'iron', 'gold', 'diamond'];
+        // Enhanced control functions
+        function addPortToSelected() {
+            const selected = grid.getSelectedCell();
+            if (!selected) {
+                log('❌ No cell selected');
+                return;
+            }
+            
+            const [x, y] = selected.split(',').map(Number);
+            const blockType = document.getElementById('block-select').value;
+            
+            grid.addPort(x, y, {
+                inputArrows: [...selectedInputArrows],
+                outputArrows: [...selectedOutputArrows],
+                block: blockType,
+                color: selectedColor
+            });
+            
+            log(`✅ Added port at ${selected}: ${selectedInputArrows.length} inputs, ${selectedOutputArrows.length} outputs`);
+        }
+        
+        function addRandomPort() {
+            const colors = Object.keys(grid.getMinecraftColors());
+            const blocks = ['stone', 'dirt', 'iron_block', 'gold_block', 'diamond_block'];
+            const positions = grid.getArrowPositions();
+            
             const x = Math.floor(Math.random() * 16) + 1;
             const y = Math.floor(Math.random() * 16) + 1;
             
+            // Random number of inputs/outputs (1-3 each)
+            const numInputs = Math.floor(Math.random() * 3) + 1;
+            const numOutputs = Math.floor(Math.random() * 3) + 1;
+            
+            const inputArrows = [];
+            const outputArrows = [];
+            
+            // Select random positions
+            for (let i = 0; i < numInputs; i++) {
+                const pos = positions[Math.floor(Math.random() * positions.length)];
+                if (!inputArrows.includes(pos)) inputArrows.push(pos);
+            }
+            
+            for (let i = 0; i < numOutputs; i++) {
+                const pos = positions[Math.floor(Math.random() * positions.length)];
+                if (!outputArrows.includes(pos)) outputArrows.push(pos);
+            }
+            
             grid.addPort(x, y, {
-                inputArrow: Math.random() > 0.5,
-                outputArrow: Math.random() > 0.5,
+                inputArrows,
+                outputArrows,
                 block: blocks[Math.floor(Math.random() * blocks.length)],
                 color: colors[Math.floor(Math.random() * colors.length)]
             });
+            
+            log(`🎲 Random port added at ${x},${y}`);
         }
         
         function removeSelectedPort() {
@@ -179,43 +448,79 @@
             if (selected) {
                 const [x, y] = selected.split(',').map(Number);
                 if (grid.removePort(x, y)) {
-                    log(`Removed port at ${selected}`);
+                    log(`🗑️ Removed port at ${selected}`);
                 } else {
-                    log(`No port found at ${selected}`);
+                    log(`❌ No port found at ${selected}`);
                 }
             } else {
-                log('No cell selected');
+                log('❌ No cell selected');
             }
+        }
+        
+        function duplicatePort() {
+            const selected = grid.getSelectedCell();
+            if (!selected) {
+                log('❌ No cell selected');
+                return;
+            }
+            
+            const [x, y] = selected.split(',').map(Number);
+            const port = grid.getPortAt(x, y);
+            if (!port) {
+                log('❌ No port at selected cell');
+                return;
+            }
+            
+            // Find empty adjacent cell
+            const adjacent = [
+                [x+1, y], [x-1, y], [x, y+1], [x, y-1],
+                [x+1, y+1], [x-1, y-1], [x+1, y-1], [x-1, y+1]
+            ];
+            
+            for (const [newX, newY] of adjacent) {
+                if (newX >= 1 && newX <= 16 && newY >= 1 && newY <= 16 && !grid.getPortAt(newX, newY)) {
+                    grid.addPort(newX, newY, {
+                        inputArrows: [...port.inputArrows],
+                        outputArrows: [...port.outputArrows],
+                        block: port.block,
+                        color: port.color
+                    });
+                    log(`📋 Duplicated port to ${newX},${newY}`);
+                    return;
+                }
+            }
+            
+            log('❌ No empty adjacent cells found');
         }
         
         function clearAllPorts() {
             grid.clearAllPorts();
-            log('All ports cleared');
+            log('🧹 All ports cleared');
         }
         
         function saveToFile() {
             const data = grid.getData();
-            dataManager.exportToFile(data, 'my-nebulyn-grid.json');
-            log('Grid exported to file');
+            dataManager.exportToFile(data, 'nebulyn-enhanced-grid.json');
+            log('📤 Grid exported to file');
         }
         
         function loadFromFile() {
             dataManager.createFileInput((data) => {
                 grid.setData(data);
-                log(`Grid loaded: ${data.ports.length} ports`);
+                log(`📥 Grid loaded: ${data.ports.length} ports`);
             });
         }
         
         function saveToLocal() {
-            const gridName = prompt('Enter grid name:') || 'default-grid';
+            const gridName = prompt('Enter grid name:') || 'enhanced-grid';
             const success = dataManager.saveToLocalStorage(gridName, grid.getData());
-            log(success ? `Saved as "${gridName}"` : 'Save failed');
+            log(success ? `💿 Saved as "${gridName}"` : '❌ Save failed');
         }
         
         function loadFromLocal() {
             const savedGrids = dataManager.listSavedGrids();
             if (savedGrids.length === 0) {
-                log('No saved grids found');
+                log('❌ No saved grids found');
                 return;
             }
             
@@ -226,9 +531,9 @@
                 const data = dataManager.loadFromLocalStorage(gridName);
                 if (data) {
                     grid.setData(data);
-                    log(`Loaded "${gridName}": ${data.ports.length} ports`);
+                    log(`📀 Loaded "${gridName}": ${data.ports.length} ports`);
                 } else {
-                    log('Grid not found');
+                    log('❌ Grid not found');
                 }
             }
         }
@@ -239,10 +544,18 @@
             
             // Export each color grid as separate JSON files
             Object.entries(colorGrids).forEach(([color, gridData]) => {
-                dataManager.exportToFile(gridData, `nebulyn-${color}-grid.json`);
+                dataManager.exportToFile(gridData, `nebulyn-${color}-enhanced.json`);
             });
             
-            log(`Generated ${Object.keys(colorGrids).length} color grids: ${Object.keys(colorGrids).join(', ')}`);
+            log(`🌈 Generated ${Object.keys(colorGrids).length} color grids: ${Object.keys(colorGrids).join(', ')}`);
+        }
+        
+        function setTexturePath() {
+            const path = prompt('Enter texture folder path (e.g., ./textures/ or https://example.com/textures/):', grid.textureBasePath);
+            if (path) {
+                grid.setTextureBasePath(path);
+                log(`🖼️ Texture path set to: ${path}`);
+            }
         }
     </script>
 </body>

@@ -1,6 +1,6 @@
 class NebulynDataManager {
   constructor() {
-    this.storageKey = "nebulyn-grids"
+    this.storageKey = "nebulyn-grids-enhanced"
   }
 
   // Save to localStorage
@@ -48,6 +48,7 @@ class NebulynDataManager {
       name,
       savedAt: grids[name].savedAt,
       portCount: grids[name].ports ? grids[name].ports.length : 0,
+      version: grids[name].version || "1.0.0",
     }))
   }
 
@@ -65,7 +66,7 @@ class NebulynDataManager {
   }
 
   // Export grid data as JSON file
-  exportToFile(data, filename = "nebulyn-grid.json") {
+  exportToFile(data, filename = "nebulyn-enhanced-grid.json") {
     try {
       const jsonString = JSON.stringify(data, null, 2)
       const blob = new Blob([jsonString], { type: "application/json" })
@@ -133,7 +134,7 @@ class NebulynDataManager {
     document.body.removeChild(input)
   }
 
-  // Generate color-specific grids from main grid
+  // Generate color-specific grids from main grid (enhanced for multiple I/O)
   generateColorGrids(mainGridData) {
     const colorGrids = {}
     const colors = new Set()
@@ -146,10 +147,11 @@ class NebulynDataManager {
     // Create a grid for each color
     colors.forEach((color) => {
       colorGrids[color] = {
-        name: `Nebulyn ${color.charAt(0).toUpperCase() + color.slice(1)} Grid`,
-        version: "1.0.0",
+        name: `Nebulyn ${color.charAt(0).toUpperCase() + color.slice(1)} Enhanced Grid`,
+        version: "2.0.0",
         timestamp: new Date().toISOString(),
         gridSize: mainGridData.gridSize || 16,
+        textureBasePath: mainGridData.textureBasePath,
         color: color,
         ports: mainGridData.ports
           .filter((port) => port.color === color)
@@ -166,8 +168,12 @@ class NebulynDataManager {
   // Merge multiple color grids back into main grid
   mergeColorGrids(colorGrids) {
     const allPorts = []
+    let textureBasePath = "./textures/"
 
     Object.values(colorGrids).forEach((grid) => {
+      if (grid.textureBasePath) {
+        textureBasePath = grid.textureBasePath
+      }
       if (grid.ports) {
         grid.ports.forEach((port) => {
           allPorts.push({
@@ -179,12 +185,62 @@ class NebulynDataManager {
     })
 
     return {
-      name: "Nebulyn Merged Grid",
-      version: "1.0.0",
+      name: "Nebulyn Enhanced Merged Grid",
+      version: "2.0.0",
       timestamp: new Date().toISOString(),
       gridSize: 16,
+      textureBasePath: textureBasePath,
       ports: allPorts,
     }
+  }
+
+  // Enhanced statistics
+  getGridStatistics(gridData) {
+    if (!gridData.ports) return null
+
+    const stats = {
+      totalPorts: gridData.ports.length,
+      totalInputs: 0,
+      totalOutputs: 0,
+      colorBreakdown: {},
+      blockBreakdown: {},
+      averageInputsPerPort: 0,
+      averageOutputsPerPort: 0,
+      mostComplexPort: null,
+      maxComplexity: 0,
+    }
+
+    gridData.ports.forEach((port) => {
+      const inputs = port.inputArrows ? port.inputArrows.length : 0
+      const outputs = port.outputArrows ? port.outputArrows.length : 0
+      const complexity = inputs + outputs
+
+      stats.totalInputs += inputs
+      stats.totalOutputs += outputs
+
+      // Track most complex port
+      if (complexity > stats.maxComplexity) {
+        stats.maxComplexity = complexity
+        stats.mostComplexPort = {
+          coordinate: port.coordinate,
+          inputs,
+          outputs,
+          block: port.block,
+          color: port.color,
+        }
+      }
+
+      // Color breakdown
+      stats.colorBreakdown[port.color] = (stats.colorBreakdown[port.color] || 0) + 1
+
+      // Block breakdown
+      stats.blockBreakdown[port.block] = (stats.blockBreakdown[port.block] || 0) + 1
+    })
+
+    stats.averageInputsPerPort = stats.totalInputs / stats.totalPorts
+    stats.averageOutputsPerPort = stats.totalOutputs / stats.totalPorts
+
+    return stats
   }
 }
 
