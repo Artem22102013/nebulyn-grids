@@ -19,7 +19,7 @@ A modular JavaScript grid engine for creating interactive 16x16 grids with port 
 
 ## Usage in Your Project
 
-\`\`\`html
+```html
 <div id="my-grid"></div>
 <script src="nebulyn-grid-engine.js"></script>
 <script src="nebulyn-data-manager.js"></script>
@@ -37,24 +37,24 @@ A modular JavaScript grid engine for creating interactive 16x16 grids with port 
     color: 'red'
   })
 </script>
-\`\`\`
+```
 
 ## API Reference
 
 ### NebulynGridEngine
-- \`addPort(x, y, config)\` - Add a port at coordinates
-- \`removePort(x, y)\` - Remove port at coordinates
-- \`getData()\` - Get current grid data
-- \`setData(data)\` - Load grid data
-- \`getPortAt(x, y)\` - Get port at coordinates
-- \`clearAllPorts()\` - Remove all ports
+- `addPort(x, y, config)` - Add a port at coordinates
+- `removePort(x, y)` - Remove port at coordinates
+- `getData()` - Get current grid data
+- `setData(data)` - Load grid data
+- `getPortAt(x, y)` - Get port at coordinates
+- `clearAllPorts()` - Remove all ports
 
 ### NebulynDataManager
-- \`saveToLocalStorage(name, data)\` - Save to browser storage
-- \`loadFromLocalStorage(name)\` - Load from browser storage
-- \`exportToFile(data, filename)\` - Export as JSON file
-- \`importFromFile(file)\` - Import from JSON file
-- \`generateColorGrids(mainData)\` - Create color-specific grids
+- `saveToLocalStorage(name, data)` - Save to browser storage
+- `loadFromLocalStorage(name)` - Load from browser storage
+- `exportToFile(data, filename)` - Export as JSON file
+- `importFromFile(file)` - Import from JSON file
+- `generateColorGrids(mainData)` - Create color-specific grids
 
 ## Use Cases
 
@@ -66,7 +66,7 @@ Shows only ports of specific colors for individual grid displays
 
 ## Data Structure
 
-\`\`\`json
+```json
 {
   "name": "Nebulyn Grid",
   "version": "1.0.0",
@@ -83,7 +83,7 @@ Shows only ports of specific colors for individual grid displays
     }
   ]
 }
-\`\`\`
+```
 
 ## License
 
